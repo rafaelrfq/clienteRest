@@ -5,11 +5,6 @@ import requests
 import json
 import base64
 
-# Requests al api
-
-# get = requests.get('http://localhost:5000/api/formularios')
-# post = requests.post('https://httpbin.org/post', data=json.dumps(userExample))
-
 def agregarFoto():
     global data, extension
     app.filename = filedialog.askopenfilename(initialdir="/", title="Seleccione una foto", filetypes=(("png files", "*.png"), ("jpeg files", "*.jpg")))
@@ -19,7 +14,6 @@ def agregarFoto():
     print(pathFoto)
     with open(pathFoto, "rb") as foto:
         data = base64.encodebytes(foto.read()).decode("utf-8")
-        # print(data)
 
 def enviar():
     if nombreInput.get() == '' or sectorInput.get() == '' or nivelEscolarCombo.get() == '---Seleccione---' or latitudInput.get() == '' or longitudInput.get() == '':
@@ -34,14 +28,14 @@ def enviar():
             "mimeType": extension,
             "fotoBase64": data
         }
-        post = requests.post('http://localhost:7000/api/formularios?usuario=admin&password=admin', data=json.dumps(formulario))
+        post = requests.post('https://parcial2.intelligence.gq/api/formularios?usuario=admin&password=admin', data=json.dumps(formulario))
         messagebox.showinfo('Datos Enviados', 'Los datos fueron enviados.')
         print(post)
     clearInput()
     popularLista()
 
 def popularLista():
-    get = requests.get('http://localhost:7000/api/formularios?usuario=admin&password=admin')
+    get = requests.get('https://parcial2.intelligence.gq/api/formularios?usuario=admin&password=admin')
     lista.delete(0, END)
     for o in get:
         lista.insert(END, o)
